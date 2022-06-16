@@ -1,0 +1,81 @@
+<div class="container">
+    <div class="row m-3">
+        <div class="col-2 offset-lg-5">
+              <ngb-carousel>  
+                <ng-template ngbSlide *ngFor="let item of libroService.libros">
+                  <div class="picsum-img-wrapper">
+                    <img src="{{item.cover}}" class="sliderImage" alt="Random slide">
+                  </div>
+                  <div class="carousel-caption">
+                    <h3>{{item.name}}</h3>
+                    <h1>{{item.created_editions}}</h1>
+                    <p>{{item.descripcion}}</p>
+                  </div>
+                </ng-template>
+              </ngb-carousel>
+        </div>
+    </div>
+    <div class="row mt-3 mb-3">
+      <div class="col-5">
+        <form>
+          <div class="form-group">
+            <label for="textLibros"><strong>BUSCADOR DE LIBROS:</strong></label>
+            <input [(ngModel)]="book_name" name="book_name" type="text" class="form-control" id="textLibros" placeholder="Ingrese el nombre del libro.">
+          </div>
+          <br>
+          <button (click)="ngGetBooks()" type="submit" class="btn btn-primary">BUSCAR</button>
+        </form>
+      </div>
+      <div class="col-7">
+        <form #form="ngForm" (ngSubmit)="ngCreateLibro(form)">
+          <div class="form-group">
+            <label><strong>Titulo:</strong></label>
+            <input [(ngModel)]="libroService.libro.name" name="name" required #name="ngModel" type="text" class="form-control" placeholder="Ingresa el titulo." value="{{libroService.name}}">                  
+          </div>
+          <div class="form-group">
+            <label><strong>Descripcion:</strong></label>
+            <input [(ngModel)]="libroService.libro.descripcion" name="descripcion" required #descripcion="ngModel" type="text" class="form-control" placeholder="Ingresa la descripcion.">
+          </div>
+          <div class="form-group">
+             <label><strong>Imagen:</strong></label>
+             <input [(ngModel)]="libroService.libro.cover" name="cover" required #cover="ngModel" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Ingresa la imagen." value="{{libroService.cover}}">                        
+          </div>
+          <div class="form-group">
+             <label><strong>Stock:</strong></label>
+             <input [(ngModel)]="libroService.libro.created_editions" name="created_editions" required #created_editions="ngModel" type="number" class="form-control" placeholder="Ingresa el stock." value="{{libroService.created_editions}}">
+          </div>
+          <div class="form-group">
+            <label><strong>Destacado:</strong></label>
+             <select [(ngModel)]="libroService.libro.destacado" name="destacado" class="form-select" placeholder="Ingresa el estado." aria-label="Default select example">
+              <option *ngFor="let item of libroService.destacado" [value]="item.value">{{item.nombre}}</option>
+             </select>
+          </div>
+          <br>
+          <button type="submit" [disabled]="form.invalid" class="btn btn-warning float-start">SAVE</button>
+          <button (click)="resetForm(form)" type="button" class="btn btn-warning float-end">CANCEL</button>
+      </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8 offset-lg-2 mt-3">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Titulo</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of libroService.librosAPI">
+                <td>{{item.name}}</td>
+                <td><img src={{item.cover}} alt=""></td>
+                <td>{{item.created_editions}}</td>
+                <td><button (click)="ngSelectLibro(item)" class="btn btn-warning">AÑADIR</button></td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row m-3">
+        <div class="col-3">
+            <form #pasajeForm="ngForm" (ngSubmit)="ngCreatePasaje(pasajeForm)">
+                <input type="hidden" name="_id" [(ngModel)]="pasajeService.pasaje._id"> 
+                <div class="form-group">
+                  <label for="exampleInputPasajero"><strong>Pasajero:</strong></label>
+                  <select name="pasajero" id="pasajero" [(ngModel)]="pasajeService.pasaje.pasajero"  required #pasajero="ngModel" class="form-select" aria-label="Default select example">
+                    <option *ngFor="let item of pasajeService.personas" [ngValue]="item" [selected]="item" selected>{{item.apellido}}, {{item.nombre}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputCategoria"><strong>Categoria del pasajero:</strong></label>
+                  <input [(ngModel)]="pasajeService.pasaje.categoriaPasajero" name="categoriaPasajero" required #categoriaPasajero="ngModel" type="text" class="form-control" id="exampleInputCategoria" placeholder="Ingrese la categoria del pasajero.">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputFecha"><strong>Fecha de compra:</strong></label>
+                    <input [(ngModel)]="pasajeService.pasaje.fechaCompra" name="fechaCompra" required #fechaCompra="ngModel" type="date" class="form-control" id="exampleInputFecha" placeholder="Ingrese la fecha de compra.">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPrecio"><strong>Precio del pasaje:</strong></label>
+                    <input [(ngModel)]="pasajeService.pasaje.precioPasaje" name="precioPasaje" required #precioPasaje="ngModel" type="number" class="form-control" id="exampleInputPrecio" placeholder="Ingrese el precio del pasaje.">
+                </div>
+                <br>
+                <button [disabled]="pasajeForm.invalid" type="submit" class="btn btn-warning float-start">Submit</button>
+                <button (click)="resetForm(pasajeForm)" type="button" class="btn btn-warning float-end">Cancel</button>
+            </form>
+        </div>
+        <div class="col-9">
+            <div class="row">
+              <div class="col-9">
+                <form #categoriaForm="ngForm" (click)="ngGetPasajesCategorias()">
+                  <label for="exampleInputCategorias"><strong>Seleccione el tipo de categoria a mostrar:</strong></label>
+                  <select name="categoria" id="categoria" [(ngModel)]="pasajeService.categoriaPasajero" class="form-select" aria-label="Default select example">
+                    <option *ngFor="let item of pasajeService.categoria" [value]="item.value" selected>{{item.nombre}}</option>
+                  </select>
+                </form>
+              </div>
+              <div class="col-3">
+                <br><button disabled type="submit" class="btn btn-warning float-start">Submit</button>
+                <button (click)="ngGetPasajes()" type="button" class="btn btn-warning float-start">TODOS</button>
+              </div>
+            </div>
+            <br>
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">Pasajero</th>
+                    <th scope="col">Categoria del pasajero</th>
+                    <th scope="col">Fecha de compra</th>
+                    <th scope="col">Precio del pasaje</th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of pasajeService.pasajes">
+                    <td>{{item.pasajero.apellido}}, {{item.pasajero.nombre}}</td>                    
+                    <td>{{item.categoriaPasajero}}</td>                    
+                    <td>{{item.fechaCompra}}</td>                    
+                    <td>{{item.precioPasaje | currency: 'USD'}}</td>                    
+                    <td>
+                        <button (click)="ngEditPasaje(item)" type="button" class="btn btn-warning btn-sm float-start">Editar</button>
+                        <button (click)="ngDeletePasaje(item._id, pasajeForm)" type="button" class="btn btn-warning btn-sm float-end">Eliminar</button>
+                    </td>                   
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

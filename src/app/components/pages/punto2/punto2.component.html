@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row m-3">
+        <div class="col-4">
+            <form #transaccionForm="ngForm" (ngSubmit)="ngCreateTransaccion(transaccionForm)">
+                <div class="form-group">
+                  <label for="exampleInputMonedaOrigen"><strong>Moneda de origen:</strong></label>
+                  <select [(ngModel)]="transaccionService.monedaOrigen" required #monedaOrigen="ngModel" name="monedaOrigen" class="form-control" id="monedaOrigen">
+                    <option *ngFor="let item of transaccionService.monedaOrigenSC" [value]="item.value">{{item.nombre}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputCantidadOrigen"><strong>Cantidad de origen:</strong></label>
+                  <input [(ngModel)]="transaccionService.transaccion.cantidadOrigen" name="cantidadOrigen" required #cantidadOrigen="ngModel" type="number" class="form-control" id="exampleInputCantidadOrigen" placeholder="Ingrese la cantidad de origen.">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputMonedaDestino"><strong>Moneda de destino:</strong></label>
+                  <select [(ngModel)]="transaccionService.monedaDestino" equired #monedaDestino="ngModel" name="monedaDestino" class="form-control" id="monedaDestino">
+                    <option *ngFor="let item of transaccionService.monedaDestinoSC" [value]="item.value" selected>{{item.nombre}}</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputCantidadDestino"><strong>Cantidad de destino:</strong></label>
+                  <input [(ngModel)]="transaccionService.transaccion.cantidadDestino" name="cantidadDestino" required #cantidadDestino="ngModel" type="number" class="form-control" id="exampleInputCantidadDestino" aria-describedby="emailHelp" placeholder="Ingresa la cantidad de destino." value="{{transaccionService.cantidadDestino}}">                        
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail"><strong>Email del cliente:</strong></label>
+                  <input [(ngModel)]="transaccionService.transaccion.emailCliente" name="emailCliente" required #emailCliente="ngModel" type="text" class="form-control" id="exampleInputEmail" placeholder="Ingrese el email del cliente.">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputTasa"><strong>Tasa de conversion:</strong></label>
+                    <input [(ngModel)]="transaccionService.transaccion.tasaConversion" name="tasaConversion" required #tasaConversion="ngModel" type="number" class="form-control" id="exampleInputTasa" placeholder="Ingrese la tasa de conversion.">
+                </div>
+                <br>
+                <button [disabled]="transaccionForm.invalid" type="submit" class="btn btn-warning float-start">AGREGAR</button>
+                <button (click)="ngGetConversion()" type="button" class="btn btn-warning">CONVERTIR</button>
+                <button (click)="resetForm(transaccionForm)" type="button" class="btn btn-warning float-end">CANCELAR</button>
+              </form>
+        </div>
+        <div class="col-8">
+            <div class="row">
+                <div class="col-9">
+                  <form #divisasForm="ngForm" (click)="ngGetTransaccionesDivisas()">
+                    <div class="form-group">
+                        <label for="exampleInputOrigen"><strong>Moneda de Origen:</strong></label>
+                        <select name="monedaOrigenB" id="monedaOrigenB" [(ngModel)]="transaccionService.monedaOrigenB" class="form-select" aria-label="Default select example">
+                          <option *ngFor="let item of transaccionService.monedaOrigenSB" [value]="item.value" selected>{{item.nombre}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputDestino"><strong>Moneda de Destino:</strong></label>
+                        <select name="monedaDestinoB" id="monedaDestinoB" [(ngModel)]="transaccionService.monedaDestinoB" class="form-select" aria-label="Default select example">
+                          <option *ngFor="let item of transaccionService.monedaDestinoSB" [value]="item.value" selected>{{item.nombre}}</option>
+                        </select>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-3">
+                  <br><button disabled type="submit" class="btn btn-warning float-start">FILTROS</button>
+                  <button (click)="ngGetTransacciones()" type="button" class="btn btn-warning float-start">TODOS</button>
+                </div>
+              </div>
+              <br>
+              <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Moneda de Origen</th>
+                      <th scope="col">Cantidad de Origen</th>
+                      <th scope="col">Moneda de Destino</th>
+                      <th scope="col">Cantidad de Destino</th>
+                      <th scope="col">Email del cliente</th>
+                      <th scope="col">Tasa de conversion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of transaccionService.transaciones">
+                      <td>{{item.monedaOrigen}}</td>                    
+                      <td>{{item.cantidadOrigen}}</td>
+                      <td>{{item.monedaDestino}}</td>                    
+                      <td>{{item.cantidadDestino}}</td>                    
+                      <td>{{item.emailCliente}}</td>                    
+                      <td>{{item.tasaConversion}}</td>                                      
+                    </tr>
+                  </tbody>
+              </table>
+        </div>
+    </div>
+</div>
